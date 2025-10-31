@@ -9,7 +9,6 @@ import { json } from "stream/consumers";
   //most likely time when conversations happen
   //average length of prompts
   //length of conversations
-  // average difference between created - update time : time spent on conversation
 
  
 
@@ -19,11 +18,14 @@ export default function Home() {
   
   const [bodyData, setBodyData] = useState("")
 
-  function aggRow(name: string, value: string) {
+  function aggRow(name: string, value: string, addText?: string) {
+    if (addText == undefined) {
+      addText = ""
+    }
     return (<div className = {styles.dataRow}>
       <h3>{name}</h3>
 
-      <p>{value}</p>
+      <p>{value + addText}</p>
     </div>)
   }
 
@@ -36,9 +38,8 @@ export default function Home() {
     }
    let jsBody = JSON.parse(body)
     return (<div>
-      {aggRow("average conversation length", jsBody.avgConvoLen)}
-      {aggRow("average prompt length", jsBody.avgPromptLen)}
-      {aggRow("average time spent on conversation", jsBody.avgConvoLen)}
+      {aggRow("average conversation length", jsBody.avgConvoLen, " messages")}
+      {aggRow("average prompt length", jsBody.avgPromptLen, " characters")}
       {aggRow("average conversation start time", jsBody.avgConvoStartTime)}
       
       </div>
@@ -78,7 +79,7 @@ export default function Home() {
                 setBodyData(text.body);
               } catch (err) {
                 console.error(err);
-                
+                setBodyData("")
               }
 
           }}
