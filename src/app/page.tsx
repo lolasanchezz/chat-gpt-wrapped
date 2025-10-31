@@ -9,7 +9,10 @@ export default function Home() {
         <h1>chat gpt wrapped</h1>
         <p>enter in a json file of your chatgpt conversations, and get a summary back!</p>
         </div>
-        <button> upload your file </button>
+        <div className={styles.filePicker}>
+          <h3>upload your file</h3>
+        <input type = "file"></input>
+        </div>
       </main>
     </div>
   );
