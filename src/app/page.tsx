@@ -19,20 +19,28 @@ export default function Home() {
   
   const [bodyData, setBodyData] = useState("")
 
+  function aggRow(name: string, value: string) {
+    return (<div className = {styles.dataRow}>
+      <h3>{name}</h3>
+
+      <p>{value}</p>
+    </div>)
+  }
+
+
+
+
   function renderData(body: string) {
     if (body == "") {
       return 
     }
    let jsBody = JSON.parse(body)
     return (<div>
-      <h1>average conversation length</h1>
-      <h3>{jsBody.avgConvoLen}</h3>
-      <h1>average prompt length</h1>
-      <h3>{jsBody.avgPromptLen}</h3>
-      <h1>average time spent on conversation</h1>
-      <h3>{jsBody.avgConvoTimeLength}</h3>
-      <h1>average conversation start time</h1>
-      <h3>{jsBody.avgConvoStartTime}</h3>
+      {aggRow("average conversation length", jsBody.avgConvoLen)}
+      {aggRow("average prompt length", jsBody.avgPromptLen)}
+      {aggRow("average time spent on conversation", jsBody.avgConvoLen)}
+      {aggRow("average conversation start time", jsBody.avgConvoStartTime)}
+      
       </div>
     )
 
@@ -46,8 +54,9 @@ export default function Home() {
             enter in a json file of your chatgpt conversations, and get a
             summary back!
           </p>
-          {renderData(bodyData)}
+         
         </div>
+         {renderData(bodyData)}
         <div className={styles.filePicker}>
           <h3>upload your file</h3>
           <input
