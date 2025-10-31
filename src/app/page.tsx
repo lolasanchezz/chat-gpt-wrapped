@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import styles from "./page.module.css";
+import { json } from "stream/consumers";
 
 
 //analyzed features
@@ -10,14 +11,32 @@ import styles from "./page.module.css";
   //length of conversations
   // average difference between created - update time : time spent on conversation
 
+ 
 
 
 
 export default function Home() {
+  
+  const [bodyData, setBodyData] = useState("")
 
-    let bodyData, setBodyData = useState("")
+  function renderData(body: string) {
+    if (body == "") {
+      return 
+    }
+   let jsBody = JSON.parse(body)
+    return (<div>
+      <h1>average conversation length</h1>
+      <h3>{jsBody.avgConvoLen}</h3>
+      <h1>average prompt length</h1>
+      <h3>{jsBody.avgPromptLen}</h3>
+      <h1>average time spent on conversation</h1>
+      <h3>{jsBody.avgConvoTimeLength}</h3>
+      <h1>average conversation start time</h1>
+      <h3>{jsBody.avgConvoStartTime}</h3>
+      </div>
+    )
 
-
+  }
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -27,7 +46,7 @@ export default function Home() {
             enter in a json file of your chatgpt conversations, and get a
             summary back!
           </p>
-          <div id="outputText">{bodyData}</div>
+          {renderData(bodyData)}
         </div>
         <div className={styles.filePicker}>
           <h3>upload your file</h3>
@@ -40,16 +59,21 @@ export default function Home() {
               if (!file) return;
               const formData = new FormData();
               formData.append("file", file);
-               const response = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
+               
+              try {
+                const res = await fetch("/api/json-interpreter", {
+                  method: "POST",
+                  body: formData,
                 });
-                const result = await response.json();
-          if (!(result.success)) {
-            alert("upload failed :( try again?")
-            }
+                const text = await res.json();
+                setBodyData(text.body);
+              } catch (err) {
+                console.error(err);
+                
+              }
+
           }}
-          ></input>
+          />
         </div>
       </main>
     </div>
