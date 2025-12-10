@@ -48,7 +48,7 @@ export const POST = async (req: NextRequest) => {
 };
 
 function getAvgConvLen(jsBody: any): number {
-   let totalMsgs = 0;
+  let totalMsgs = 0;
   let count = 0;
 
   for (const convo of jsBody) {

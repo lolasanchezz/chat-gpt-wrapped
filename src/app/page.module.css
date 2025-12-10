@@ -8,7 +8,7 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
   --button-secondary-border: #ebebeb;
-
+  
   display: flex;
   min-height: 100vh;
   align-items: center;
@@ -23,10 +23,12 @@
   width: 100%;
   max-width: 800px;
   flex-direction: column;
-  align-items: left;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: space-around;
   background-color: var(--foreground);
   padding: 120px 60px;
+  background-image: url("/background.jpg");
+
 }
 
 .intro {
@@ -47,10 +49,10 @@
 
 .filePicker {
   display: flex;
-  align-items: left;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: left;
+  justify-content: center;
 }
 
 .dataRow {
@@ -68,6 +70,13 @@
   text-wrap: balance;
   color: var(--text-primary);
 }
+
+.filePicker input {
+  padding-left: 15%;
+  display: flex;
+  width: 100% !important;
+}
+
 
 .intro p {
   max-width: 440px;
