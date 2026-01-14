@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { json } from "stream/consumers";
 
 interface returnedData {
   avgConvoStartTime?: string;
   avgPromptLen?: number;
   avgConvoLen?: number;
-
+  envImpact?: number;
+  Co2Impact?: number;
   error?: string;
 }
 
@@ -40,7 +42,8 @@ export const POST = async (req: NextRequest) => {
   testObj.avgConvoLen = getAvgConvLen(jsonBody);
   testObj.avgPromptLen = getAveragePromptLen(jsonBody);
   testObj.avgConvoStartTime = getAverageTimeStamp(jsonBody);
-
+  testObj.envImpact = getWater(jsonBody)
+  testObj.Co2Impact = getco2(jsonBody)
   return NextResponse.json({
     success: true,
     body: JSON.stringify(testObj),
@@ -77,7 +80,7 @@ function getAveragePromptLen(jsBody: any): number {
     }
   }
 
-  return count > 0 ? sumPromptLen / count : 0;
+  return count > 0 ? Math.round(sumPromptLen / count) : 0;
 }
 
 
@@ -100,3 +103,34 @@ function getAverageTimeStamp(jsBody: any) {
     minute: "2-digit",
   });
 }
+
+function getWater(jsBody: any): number {
+  let sumSpaces = 0;
+  let count = 0;
+
+  for (const convo of jsBody) {
+    const assistantMessages = (Object.values(convo.mapping) as any[])
+      .filter((m: any) => m?.message?.author?.role === "assistant");
+
+    for (const msg of assistantMessages) {
+      const assistantMsg = String(msg?.message?.content?.parts?.[0] ?? "");
+      sumSpaces += assistantMsg.match(/ /g)?.length ?? 0;
+      count++;
+    }
+  }
+
+  return count > 0 ? sumSpaces / 50 : 0;
+}
+function getco2(jsBody: any): number {
+  let sumPrompts = 0;
+
+  for (const convo of jsBody) {
+    const userMessages = (Object.values(convo.mapping) as any[])
+      .filter((m: any) => m?.message?.author?.role === "user");
+    sumPrompts += userMessages.length
+   
+  }
+
+  return sumPrompts *4.32;
+}
+

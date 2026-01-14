@@ -40,3 +40,12 @@ a {
     color-scheme: dark;
   }
 }
+
+@font-face {
+  font-family: 'terminal';
+  src: url('/terminal.woff') format('woff')
+} 
+@font-face {
+  font-family: 'orbit';
+  src: url('/orbit.ttf') format('truetype')  
+}
