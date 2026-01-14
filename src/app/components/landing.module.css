@@ -46,6 +46,14 @@
 
 }
 
+.main p {
+  font-size: large;
+  background-color: #0000002c;
+  padding: 2%;
+  border-radius: 5%;
+  width: 40%;
+}
+
 .intro {
   display: flex;
   flex-direction: column;

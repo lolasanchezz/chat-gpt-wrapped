@@ -24,6 +24,12 @@ function Landing() {
         <div className={styles.header}>
           <Image src={"/elements/header.png"} alt="header" width={175} height={75}/>
         </div>
+        
+        <p>
+          log into chatgpt, go into settings, and click ‘export data’ under data controls.
+on chatgpt wrapped, click upload your file.
+search for ‘conversations.json’ in your files, and upload! 
+        </p>
         <div className={styles.filePicker}>
           <h3>upload your file</h3>
           <input
